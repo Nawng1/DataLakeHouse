@@ -55,6 +55,7 @@ services:
       - MINIO_ACCESS_KEY=minio_access_key
       - MINIO_SECRET_KEY=minio_secret_key
     volumes:
+      - ./spark-config/conf/spark-defaults.conf.template:/opt/bitnami/spark/conf/spark-defaults.conf
       - ./spark-config/conf/spark-defaults.conf:/opt/bitnami/spark/conf/spark-defaults.conf
       - ./spark-config/conf/log4j.properties:/opt/bitnami/spark/conf/log4j.properties
       - ./etl-pineline/extract:/opt/bitnami/spark/scripts
@@ -115,7 +116,7 @@ services:
     ports:
       - '8086:8080'
     volumes:
-      - ./etc:/usr/lib/trino/etc:ro
+    - ./docker-image/trino/catalog:/etc/trino/catalog
     networks:
       - data-lakehouse-network
 
@@ -156,8 +157,8 @@ services:
     volumes:
       - ./data:/data
     environment:
-      MINIO_ROOT_USER: minio_access_key
-      MINIO_ROOT_PASSWORD: minio_secret_key
+      MINIO_ROOT_USER: nang
+      MINIO_ROOT_PASSWORD: phuocnang123phuocnang123
     command: server /data --console-address ":9001"
     networks:
       - data-lakehouse-network
